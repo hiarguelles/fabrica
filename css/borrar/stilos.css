@@ -1,0 +1,74 @@
+body{
+    background-color: aliceblue;
+    color: #0070c0;
+
+}
+
+.navbar{
+    background-color: #423748;
+    box-shadow: 0 0 4px rgba(0,0,0,0.25);
+}
+
+.pcintilli{
+    font-size: 35px;
+    text-align: center;
+    z-index: 100;
+    color: #d7d7d7;
+    border: 1px solid;
+    margin-top: -70px;
+}
+
+.tipocliente p{
+    color: #0070c0;
+    padding: 25px;
+}
+.tipocliente label{
+    margin-right: 20px;
+}
+
+.tcradios{
+    border: 1px solid lightgray;
+    padding: 5px;
+    vertical-align: super;
+}
+.radiouno{
+    padding-left: 17px;
+}
+
+.wrappers{
+    border: 1px solid lightgray;
+}
+.dptitular{
+    text-align: center;
+}
+.titulares{
+    color: #002060;
+}
+
+.textocenter{
+    text-align: center;
+}
+
+.marcoprincipalajuste{
+    margin: 0px;
+}
+
+.brandbard{
+    display: flex;
+}
+.brandbard p{
+    margin: 10px;
+}
+.logomega{
+    width: 30%;
+}
+
+.iconos_menu{
+    border-radius: 150px;
+    border: 2px solid #0974c9;
+    padding: 2px;
+}
+
+.carousel-control{
+ opacity: 0;
+}

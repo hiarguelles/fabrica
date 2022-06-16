@@ -1,0 +1,14 @@
+bs-docs-header, .bs-docs-masthead {
+position: relative;
+padding: 30px 0;
+color: #cdbfe3;
+text-align: center;
+text-shadow: 0 1px 0 rgb(0 0 0 / 10%);
+background-color: #73308b;
+background-image: -webkit-gradient(linear,left top,left bottom,from(#cc0b2f),to(#73308b));
+background-image: -webkit-linear-gradient(top,#cc0b2f 0,#73308b 100%);
+background-image: -o-linear-gradient(top,#cc0b2f 0,#73308b 100%);
+background-image: linear-gradient(to bottom,#cc0b2f 0,#73308b 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cc0b2f', endColorstr='#73308b', GradientType=0);
+background-repeat: repeat-x;
+}

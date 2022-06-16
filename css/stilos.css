@@ -1,0 +1,90 @@
+body{
+    background-color: aliceblue;
+    color: #0070c0;
+}
+.logo{
+    float: right;
+}
+
+.pcintilli{
+    font-size: 35px;
+    text-align: center;
+    z-index: 100;
+    color: #d7d7d7;
+    border: 1px solid;
+    margin-top: -70px;
+}
+
+.tipocliente p{
+    color: #0070c0;
+    padding: 25px;
+}
+.tipocliente label{
+    margin-right: 20px;
+}
+
+.tcradios{
+    border: 1px solid lightgray;
+    padding: 5px;
+    vertical-align: super;
+}
+.radiouno{
+    padding-left: 17px;
+}
+
+.wrappers{
+    border: 1px solid lightgray;
+}
+.dptitular{
+    text-align: center;
+}
+.titulares{
+    color: #002060;
+}
+
+.textocenter{
+    text-align: center;
+}
+
+.marcoprincipalajuste{
+    margin: 0px;
+}
+.brandbard{
+    display: flex;
+}
+.brandbard p{
+    margin: 10px;
+}
+.menu{
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    color: #333;
+}
+.error{
+    border: 1px solid red;
+}
+.titulares{
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+    font-weight: 300;
+
+    color: #333;
+}
+
+.bs-docs-header, .bs-docs-masthead {
+position: relative;
+padding: 30px 0;
+color: #cdbfe3;
+text-align: center;
+text-shadow: 0 1px 0 rgb(0 0 0 / 10%);
+background-color: #73308b;
+background-image: -webkit-gradient(linear,left top,left bottom,from(#cc0b2f),to(#73308b));
+background-image: -webkit-linear-gradient(top,#cc0b2f 0,#73308b 100%);
+background-image: -o-linear-gradient(top,#cc0b2f 0,#73308b 100%);
+background-image: linear-gradient(to bottom,#cc0b2f 0,#73308b 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cc0b2f', endColorstr='#73308b', GradientType=0);
+background-repeat: repeat-x;
+}
+
+ h1 { color: #FFFFFF; }
+

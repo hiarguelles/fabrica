@@ -1,6 +1,13 @@
 <?php
 include('header_f.PHP');
 session_start();
+/*
+ * $_SESSION['id_user']=$res[0]['id_usuario'];
+        $_SESSION['agente']=$res[0]['usuario'];
+        $_SESSION['puesto']=$res[0]['puesto'];
+        $_SESSION['menu']=$res[0]['menu'];
+
+ * */
 ?>
         <div class="d-flex" id="wrapper">
             <!-- Sidebar-->
@@ -44,8 +51,8 @@ session_start();
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-                                <li class="nav-item active"><a class="nav-link" href="#!">Agente nombre</a></li>
-                                <li class="nav-item active"><a class="nav-link" href="#!">Dashboard</a></li>
+                                <li class="nav-item active"><a class="nav-link" href="#!"><?=$_SESSION['agente']?></a></li>
+                                <li class="nav-item active"><a class="nav-link" href="#!"><?=$_SESSION['puesto']?></a></li>
 
                                 <li class="nav-item active"><a class="nav-link" href="logout.php">Cerrar sesión</a></li>
                                 <!--<li class="nav-item"><a class="nav-link" href="#!">Link</a></li>

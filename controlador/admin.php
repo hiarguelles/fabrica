@@ -6,7 +6,7 @@ $pass  = isset($_GET['pass']) ?  $_GET['pass'] : '';
 
 ?>
 
-<form id="form1" method="post" action="../controlador/functions.php?&gen_pass=1">
+<form id="form1" method="post" action="functions.php?&gen_pass=1">
 <h3>Generar pass</h3>
 <table class="table table-bordered" style="width: 50%">
     <tr>

@@ -15,7 +15,7 @@ class LogUser
     public function validaUsuario($user, $pass)
     {
         $encrypt= encrypt($pass, "FDC");
-        $sql = "select id_usuario, lower(usuario), puesto ";
+        $sql = "select id_usuario, lower(usuario)as usuario, puesto, menu ";
         $sql .= " from usuarios where lower(usuario)=:u and pass=:p";
 
 echo $sql;
@@ -25,8 +25,8 @@ echo $sql;
         $stmt->execute();
 
         $res = $stmt->fetchAll();
-        print_r($res);
-
+        //print_r($res);
+        return $res;
     }
 
 

@@ -12,27 +12,21 @@ if (!empty($_POST['txtUser']) && !empty($_POST['txtPass'])) {
     $p=$_POST['txtPass'];
     $res = $conn->validaUsuario($u, $p);
 
-
-    /*$secret="BDF";
-    //$conexion  = new Logginuser('amex_online');
-    //$conecta240  = new Conecta240('MegaAmexOnline');
-    //$result = $conexion->validaUsser($_POST['usser'],$_POST['password']);
-    $u= $_POST['user'];
-    $p= $_POST['password'];
-    $f= encrypt($p, $secret) ;
-    if($u=="agente01" && $p=="user*12345"){
-        $_SESSION['id_user']= $u;
-        $_SESSION['menu']= "agente";
-        $url="index.php?&message=OK";   
-        //create session
-        //redirect to menu.index.php    
-        $url="fabrica_main.php";
+    if(count($res)>0){
+        $_SESSION['id_user']=$res[0]['id_usuario'];
+        $_SESSION['agente']=$res[0]['usuario'];
+        $_SESSION['puesto']=$res[0]['puesto'];
+        $_SESSION['menu']=$res[0]['menu'];
+        header("location: fabrica_main.php");
+        die();
     }
     else{
-        $url="index.php?&message=".$f;
+        $url="index.php?&message=errorUSU";
+        header("location: $url");
+        die();
     }
-    header("location: $url");
-    die();*/
+
+
 }
 else{
     $url="index.php?&message=errorPOST";

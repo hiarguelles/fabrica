@@ -1,4 +1,11 @@
 <?php
+if(isset($_GET['gen_pass'])){
+    $pass= $_POST['txtPass'];
+    $result=encrypt($pass, "FDC");
+    $url= "admin.php?&result=".$result;
+    header("location: $url");
+    die();
+}
 function encrypt($string, $key) {
     $result = '';
     for($i=0; $i<strlen($string); $i++) {

@@ -1,8 +1,19 @@
 <?php
 session_start();
-include_once('app_data/functions.php');
-if (!empty($_POST['user']) && !empty($_POST['password'])) {
-    $secret="BDF";
+require_once('controlador/funcionesGenerales.php');
+require_once('modelo/LogUser.php');
+require_once('modelo/ConectaFDC.php');
+
+if (!empty($_POST['txtUser']) && !empty($_POST['txtPass'])) {
+
+    $conn  = new LogUser();
+    $connectSQL  = new ConectaFDC();
+    $u= $_POST['txtUser'];
+    $p=$_POST['txtPass'];
+    $res = $conn->validaUsuario($u, $p);
+
+
+    /*$secret="BDF";
     //$conexion  = new Logginuser('amex_online');
     //$conecta240  = new Conecta240('MegaAmexOnline');
     //$result = $conexion->validaUsser($_POST['usser'],$_POST['password']);
@@ -21,7 +32,7 @@ if (!empty($_POST['user']) && !empty($_POST['password'])) {
         $url="index.php?&message=".$f;
     }
     header("location: $url");
-    die();
+    die();*/
 }
 else{
     $url="index.php?&message=errorPOST";

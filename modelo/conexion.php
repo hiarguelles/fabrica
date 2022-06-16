@@ -1,23 +1,18 @@
 <?php
-class conexion2{
+class conexion{
 
-    static public function conexionodbcPDO240(){
-        $db = "";
-        define("CONTRASENA", "");
-        define("USUARIO",  "");
-        define("DB", "$db");
-        define("IP", "10.254.10.11");
-        define("PUERTO", "1433");
+    static public function conexionPDOSQL(){
+        @define("BDD", "brad_fabrica");
+        @define("USER",  "webser");
+        @define("PASS", "w3bS3r*FDC");
+        @define("IP", "DESKTOP-CBR9L2J\SQLEXPRESS");
         try {
-            $conn = new PDO("sqlsrv:Server=".IP.",".PUERTO.";Database=".DB, USUARIO,CONTRASENA);
-            $conn->setAttribute(PDO::SQLSRV_ATTR_ENCODING, PDO::SQLSRV_ENCODING_UTF8);
+            $conn = new PDO("sqlsrv:server=".IP.";database=".BDD, USER, PASS);
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (Exception $e) {
-            echo "Ocurrio un error con la base de datos: " . $e->getMessage();
+            echo "Ocurrió un error con la base de datos: " . $e->getMessage();
             exit;
         }
         return $conn;
     }
-
-    
-
 }

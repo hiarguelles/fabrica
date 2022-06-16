@@ -15,11 +15,11 @@ if(isset($_GET['msg']) && !empty($_GET['msg']) && $_GET['msg'] == '1'){
 					<p></p>
 					<p class="float">
 						<label for="Usuario"><i class="icon-user"></i>&nbsp;Usuario</label>
-						<input type="text" name="user" placeholder="user" maxlength="15" minlength="5" tabindex="1" class="form-control" required="required">
+						<input type="text" name="txtUser" placeholder="user" maxlength="15" minlength="5" tabindex="1" class="form-control" required="required">
 					</p>
 					<p class="float">
 						<label for="password"><i class="icon-lock"></i>&nbsp;Contraseña</label>
-						<input type="password" name="password" placeholder="Pass" class="showpassword" tabindex="2"  class="form-control" required="required">
+						<input type="password" name="txtPass" placeholder="Pass" class="showpassword" tabindex="2"  class="form-control" required="required">
 					</p>
 					<p class="clearfix"> 
 						<div align="center">

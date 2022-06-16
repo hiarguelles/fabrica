@@ -1,0 +1,23 @@
+/* FABRICA DE CREDITO */
+
+server: DESKTOP-CBR9L2J\SQLEXPRESS
+
+BDD: brad_fabrica
+USU: webser
+PASS: w3bS3r*FDC
+
+/* Usuarios login:  */
+
+usuario: agente01
+pass: agente01
+pass encrypt: pK2psbqpc3c=
+
+ADMINISTRADOR
+usuario: admin
+pass: admin$$fdc
+pass encrypt: pKqxrLRoZ6yopg==
+
+
+
+
+

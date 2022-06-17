@@ -18,13 +18,13 @@ session_start();
                     switch( $_SESSION['menu']){
                         case "agente":
                             ?>
-                            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Inicio</a>
+                            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="javascript:home()">Inicio</a>
                             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="javascript:bandeja()">Bandeja</a>
                             <?php
                             break;
                         case "administrador":
                             ?>
-                            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Inicio</a>
+                            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="javascript:home()">Inicio</a>
                             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Overview</a>
                             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Events</a>
                             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Profile</a>
@@ -72,7 +72,7 @@ session_start();
                 <!-- Page content-->
                 <p></p>
                 <p></p>
-                <div class="container-fluid ui-tabs-panel" id="divMain">
+                <div class="container-fluid ui-tabs-panel" id="divMain" name="divMain">
                     <h1 class="mt-4">Flujo de generación</h1>
                     <p></p>
                     <img src="img/flujo_generacion.png"/>
@@ -83,16 +83,20 @@ session_start();
     $(document).ready(function(){
         console.log('Inicializa')
     })
+    function home(){
+        $("#divMain").html("<h1 class=\"mt-4\">Flujo de generación</h1><p></p><img src=\"img/flujo_generacion.png\"/>");
+    }
     function bandeja(){
         console.log('bandeja principal');
         var URL="ajax.php?&action=bandeja";
+        $("#divMain").html("");
         $.ajax({
             type: "POST",
             dataType: "text",
             url: URL,
             success: function(data) {
                 console.log('data='+data)
-                $("#divMain").innerHTML=data;
+                $("#divMain").html(data);
             },
             error: function(e){
                 console.log('Error='+ e);

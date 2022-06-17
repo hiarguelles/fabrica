@@ -9,15 +9,43 @@ class muestraAjax
     }
     public function GetTableData(){
         //$encrypt= encrypt($pass, "FDC");
-        /*$sql = "select id_usuario, lower(usuario)as usuario, puesto, menu, nombre ";
-        $sql .= " from usuarios where lower(usuario)=:u and pass=:p";
+        $sql = "SELECT fecha, socio, caso, solicitud, status, hit, perfil, motivo FROM BASEoRIGEN";
         $stmt = $this->BDD->prepare($sql);
-        $stmt->bindParam(":u", $user, PDO::PARAM_STR);
-        $stmt->bindParam(":p", $encrypt, PDO::PARAM_STR);
+        //$stmt->bindParam(":u", $user, PDO::PARAM_STR);
+        //$stmt->bindParam(":p", $encrypt, PDO::PARAM_STR);
         $stmt->execute();
         $res = $stmt->fetchAll();
-        */
-        return "BANDEJA MIJO";
+        if(count($res)>0){
+            $html= "<table class=\"table table-bordered table-hover table-striped\"";
+            $html.="<tr style=\"font-size: 10px\">";
+            $html.="<td>fecha</td>";
+            $html.="<td>socio</td>";
+            $html.="<td>caso</td>";
+            $html.="<td>solicitud</td>";
+            $html.="<td>status</td>";
+            $html.="<td>hit</td>";
+            $html.="<td>perfil</td>";
+            $html.="<td>motivo</td>";
+            $html.="</tr>";
+
+            foreach($res as $item){
+                $html.="<tr style=\"font-size: 9px\">";
+                    $html.="<td>".$item["fecha"]."</td>";
+                    $html.="<td>".$item["socio"]."</td>";
+                    $html.="<td>".$item["caso"]."</td>";
+                    $html.="<td>".$item["solicitud"]."</td>";
+                    $html.="<td>".$item["status"]."</td>";
+                    $html.="<td>".$item["hit"]."</td>";
+                    $html.="<td>".$item["perfil"]."</td>";
+                    $html.="<td>".$item["motivo"]."</td>";
+                $html.="</tr>";
+            }
+            $html.= "</table>";
+            return $html;
+        }
+        else {
+            return "No hay datos para mostrar";
+        }
     }
 
     public function obtenSubCalificacion($index){

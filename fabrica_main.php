@@ -19,7 +19,7 @@ session_start();
                         case "agente":
                             ?>
                             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Inicio</a>
-                            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Bandeja</a>
+                            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="javascript:bandeja()">Bandeja</a>
                             <?php
                             break;
                         case "administrador":
@@ -51,8 +51,8 @@ session_start();
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-                                <li class="nav-item active"><a class="nav-link" href="#!"><?=$_SESSION['agente']?></a></li>
-                                <li class="nav-item active"><a class="nav-link" href="#!"><?=$_SESSION['puesto']?></a></li>
+                                <li class="nav-item active"><a class="nav-link" href="#!"><?=$_SESSION['nombre']?>&nbsp;|</a></li>
+                                <li class="nav-item active"><a class="nav-link" href="#!"><?=$_SESSION['puesto']?>&nbsp;|</a></li>
 
                                 <li class="nav-item active"><a class="nav-link" href="logout.php">Cerrar sesión</a></li>
                                 <!--<li class="nav-item"><a class="nav-link" href="#!">Link</a></li>
@@ -72,8 +72,7 @@ session_start();
                 <!-- Page content-->
                 <p></p>
                 <p></p>
-                <div class="container-fluid" id="divMain">
-
+                <div class="container-fluid ui-tabs-panel" id="divMain">
                     <h1 class="mt-4">Flujo de generación</h1>
                     <p></p>
                     <img src="img/flujo_generacion.png"/>
@@ -84,6 +83,22 @@ session_start();
     $(document).ready(function(){
         console.log('Inicializa')
     })
+    function bandeja(){
+        console.log('bandeja principal');
+        var URL="ajax.php?&action=bandeja";
+        $.ajax({
+            type: "POST",
+            dataType: "text",
+            url: URL,
+            success: function(data) {
+                console.log('data='+data)
+                $("#divMain").innerHTML=data;
+            },
+            error: function(e){
+                console.log('Error='+ e);
+            }
+        });
+    }
 </script>
 
 <?php include('footer.php') ?>

@@ -17,6 +17,7 @@ if (!empty($_POST['txtUser']) && !empty($_POST['txtPass'])) {
         $_SESSION['agente']=$res[0]['usuario'];
         $_SESSION['puesto']=$res[0]['puesto'];
         $_SESSION['menu']=$res[0]['menu'];
+        $_SESSION['nombre']=$res[0]['nombre'];
         header("location: fabrica_main.php");
         die();
     }

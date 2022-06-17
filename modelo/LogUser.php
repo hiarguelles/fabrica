@@ -15,10 +15,8 @@ class LogUser
     public function validaUsuario($user, $pass)
     {
         $encrypt= encrypt($pass, "FDC");
-        $sql = "select id_usuario, lower(usuario)as usuario, puesto, menu ";
+        $sql = "select id_usuario, lower(usuario)as usuario, puesto, menu, nombre ";
         $sql .= " from usuarios where lower(usuario)=:u and pass=:p";
-
-echo $sql;
         $stmt = $this->BDD->prepare($sql);
         $stmt->bindParam(":u", $user, PDO::PARAM_STR);
         $stmt->bindParam(":p", $encrypt, PDO::PARAM_STR);

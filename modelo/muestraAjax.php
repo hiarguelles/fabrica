@@ -17,15 +17,16 @@ class muestraAjax
         $res = $stmt->fetchAll();
         if(count($res)>0){
             $html= "<table class=\"table table-bordered table-hover table-striped\"";
-            $html.="<tr style=\"font-size: 10px\">";
-            $html.="<td>fecha</td>";
-            $html.="<td>socio</td>";
-            $html.="<td>caso</td>";
-            $html.="<td>solicitud</td>";
-            $html.="<td>status</td>";
-            $html.="<td>hit</td>";
-            $html.="<td>perfil</td>";
-            $html.="<td>motivo</td>";
+            $html.="<tr style=\"font-size: 10px;font-weight: bold;align-content: center\">";
+            $html.="<td>FECHA</td>";
+            $html.="<td>SOCIO</td>";
+            $html.="<td>CASO</td>";
+            $html.="<td>SOLICITUD</td>";
+            $html.="<td>STATUS</td>";
+            $html.="<td>HIT</td>";
+            $html.="<td>PERFIL</td>";
+            $html.="<td>MOTIVO</td>";
+            $html.="<td>PROCESS</td>";
             $html.="</tr>";
 
             foreach($res as $item){
@@ -38,6 +39,7 @@ class muestraAjax
                     $html.="<td>".$item["hit"]."</td>";
                     $html.="<td>".$item["perfil"]."</td>";
                     $html.="<td>".$item["motivo"]."</td>";
+                    $html.="<td>process...</td>";
                 $html.="</tr>";
             }
             $html.= "</table>";

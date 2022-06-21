@@ -1,12 +1,31 @@
 <?php
 class classData{
-    private $db;
     private $arrayResult;
+    public $db;
     /* CONSTRUCTOR */
-    public function __construct($base){
-        $this->db = conexion::conexionodbcPDO45($base);
+    public function __construct(){
+        $this->db = conexion::conexionPDOSQL();
         $this->arrayResult=array();
     }
+    public function GetDataEval($caso){
+
+        $sql="SELECT  B.nombre, B.fecha, B.socio, B.caso, B.solicitud, ";
+        $sql.= " B.status, B.hit, B.perfil, B.motivo , B.rec1, ";
+        $sql.= " B.mensaje_tienda, B.rec2, ";
+        $sql.= " B.identificacion, B.talon, B.foto_th_id, B.contrato, B.aviso_privacidad, B.firmas, B.observaciones";
+        $sql.= " FROM BASEoRIGEN B WHERE B.caso=:caso";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(":caso", $caso, PDO::PARAM_STR);
+        $stmt->execute();
+        $res = $stmt->fetchAll();
+        if(count($res)>0){
+            return $res;
+        }
+        else {
+            return 'No hay datos para mostrar';
+        }
+    }
+
     /* RETORNA UN ARRAY ASOCIATIVO */
     public function getData($sql){
         $stmt = $this->db->prepare($sql);

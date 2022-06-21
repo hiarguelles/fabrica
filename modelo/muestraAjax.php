@@ -7,46 +7,20 @@ class muestraAjax
     public function __construct(){
         $this->BDD = conexion:: conexionPDOSQL();
     }
+
     public function GetTableData(){
-        //$encrypt= encrypt($pass, "FDC");
-        $sql = "SELECT fecha, socio, caso, solicitud, status, hit, perfil, motivo FROM BASEoRIGEN";
+        $sql = "SELECT  row_number() over(order by socio) as fila, fecha, socio, caso, solicitud,";
+        $sql.= " status, hit, perfil, motivo,'' as process ,'' as p2 ";
+        $sql.= " FROM BASEoRIGEN ";
         $stmt = $this->BDD->prepare($sql);
-        //$stmt->bindParam(":u", $user, PDO::PARAM_STR);
-        //$stmt->bindParam(":p", $encrypt, PDO::PARAM_STR);
         $stmt->execute();
         $res = $stmt->fetchAll();
         if(count($res)>0){
-            $html= "<table class=\"table table-bordered table-hover table-striped\"";
-            $html.="<tr style=\"font-size: 10px;font-weight: bold;align-content: center\">";
-            $html.="<td>FECHA</td>";
-            $html.="<td>SOCIO</td>";
-            $html.="<td>CASO</td>";
-            $html.="<td>SOLICITUD</td>";
-            $html.="<td>STATUS</td>";
-            $html.="<td>HIT</td>";
-            $html.="<td>PERFIL</td>";
-            $html.="<td>MOTIVO</td>";
-            $html.="<td>PROCESS</td>";
-            $html.="</tr>";
 
-            foreach($res as $item){
-                $html.="<tr style=\"font-size: 9px\">";
-                    $html.="<td>".$item["fecha"]."</td>";
-                    $html.="<td>".$item["socio"]."</td>";
-                    $html.="<td>".$item["caso"]."</td>";
-                    $html.="<td>".$item["solicitud"]."</td>";
-                    $html.="<td>".$item["status"]."</td>";
-                    $html.="<td>".$item["hit"]."</td>";
-                    $html.="<td>".$item["perfil"]."</td>";
-                    $html.="<td>".$item["motivo"]."</td>";
-                    $html.="<td>process...</td>";
-                $html.="</tr>";
-            }
-            $html.= "</table>";
-            return $html;
+            return $res;
         }
         else {
-            return "No hay datos para mostrar";
+            return 'No hay datos para mostrar';
         }
     }
 

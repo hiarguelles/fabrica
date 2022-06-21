@@ -9,6 +9,41 @@ session_start();
 
  * */
 ?>
+<style>
+    .table-hover thead tr:hover th, .table-hover tbody tr:hover td {
+        background-color: yellow;
+        cursor:pointer;}
+    }
+    .table-hover thead tr:hover th, .table-hover tbody tr:hover td {
+        background-color: yellow;
+        cursor:pointer;
+    }
+
+    .linkR a:link{
+        color:coral;
+        text-decoration:initial;
+    }
+    .linkA a:link{
+        color:darkgreen;
+        text-decoration:initial;
+    }
+    .ResizedTExtbox{
+        height:30px;
+        font-size:14px;
+    }
+    .table-condensed_1>thead>tr>th,
+    .table-condensed_1>tbody>tr>th,
+    .table-condensed_1>tfoot>tr>th,
+    .table-condensed_1>thead>tr>td,
+    .table-condensed_1>tbody>tr>td,
+    .table-condensed_1>tfoot>tr>td{
+        padding: 0px;
+        border-color:white;
+    }
+
+</style>
+
+
         <div class="d-flex" id="wrapper">
             <!-- Sidebar-->
             <div class="border-end bg-white" id="sidebar-wrapper">
@@ -80,28 +115,120 @@ session_start();
             </div>
         </div>
 <script type="text/javascript">
+    var PUESTO='';
     $(document).ready(function(){
         console.log('Inicializa')
+        PUESTO= '<?=$_SESSION['puesto']?>';
+        bandeja();
     })
     function home(){
         $("#divMain").html("<h1 class=\"mt-4\">Flujo de generación</h1><p></p><img src=\"img/flujo_generacion.png\"/>");
     }
     function bandeja(){
-        console.log('bandeja principal');
+        console.log('Inicializa AJAX');
+        var PARAM='{"id":"-1"}';
+        var COLS=10;
         var URL="ajax.php?&action=bandeja";
-        $("#divMain").html("");
+        var ROWS=0;
+        var HTML=''
+        $("#divMain").html("loading");
         $.ajax({
             type: "POST",
-            dataType: "text",
             url: URL,
+            data: PARAM,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
             success: function(data) {
-                console.log('data='+data)
-                $("#divMain").html(data);
+                const Datos= JSON.stringify(data);
+                json= JSON.parse(Datos);
+                    for (var key in json) {
+                        var img = ''
+                        var caso = (json[key])['caso'];
+
+                        HTML += '<tr style="font-size:10px">';
+                        HTML += '<td>' + (json[key])['fila'] + '</td>';
+                        HTML += '<td>' + (json[key])['fecha'] + '</td>';
+                        HTML += '<td>' + (json[key])['socio'] + '</td>';
+                        HTML += '<td>' + caso  + '</td>';
+                        HTML += '<td>' + (json[key])['solicitud'] + '</td>';
+                        HTML += '<td>' + (json[key])['status'] + '</td>';
+                        HTML += '<td>' + (json[key])['hit'] + '</td>';
+                        HTML += '<td>' + (json[key])['perfil'] + '</td>';
+                        HTML += '<td>' + (json[key])['motivo'] + '</td>';
+                        ROWS++;
+                        var Message = 'Tooltip'
+                        switch ((json[key])['process']) {
+                            case 'BLOCKED':// +24hrs
+                                img = '<div align="center"><a data-toggle="tooltip" title="' + Message + '"><img src="img/box-important_192.gif" width="24px"></a></div>';
+                                break;
+                            case 'EVAL':// EN EVALUACIÓN
+                                img = '<div align="center"><a data-toggle="tooltip" title="' + Message + '"><img src="img/in-progress_192.gif" width="24px"></a></div>';
+                                break;
+                            default:
+                                img='<a href="javascript:evaluar(\''+ PUESTO + '\', \'' + caso  + '\',\'EVALUAR\')">Evaluar</a>';
+                                break;
+                        }
+                        HTML += '<td><div id="divData_'+ caso +'">' + img + '</div></td>';
+                        HTML += '</tr>';
+                    }
+                    var R= TAbleHEader() + HTML + TAbleFooter(COLS, (ROWS +' resultados'));
+                    //$("#divResult").html(R);
+                    $("#divMain").html(R);
+                    console.log(HTML);
+                //}
             },
             error: function(e){
                 console.log('Error='+ e);
             }
         });
+    }
+    function TAbleHEader(){
+        var HTML='<table class="table table-bordered table-hover table-striped">';
+        HTML+= '<thead>';
+        HTML+= '<tr style="background-color:#0a53be;color: #FFFFFF;font-size: 11px">';
+        HTML+= '<th><div align="center">NUM</div></th>';
+        HTML+= '<th><div align="center">FECHA</div></th>';
+        HTML+= '<th><div align="center">SOCIO</div></th>';
+        HTML+= '<th><div align="center">CASO</div></th>';
+        HTML+= '<th><div align="center">SOLICITUD</div></th>';
+        HTML+= '<th><div align="center">STATUS</div></th>';
+        HTML+= '<th><div align="center">HIT</div></th>';
+        HTML+= '<th><div align="center">PERFIL</div></th>';
+        HTML+= '<th><div align="center">MOTIVO</div></th>';
+        HTML+= '<th><div align="center">PROCESO</div></th>';
+        HTML+= '</tr>';
+        HTML+= '</thead>';
+        HTML+= '<tbody>';
+        return HTML;
+    }
+    function TAbleFooter(colSpan, sREsult){
+        var HTML= '<tr style="font-size:10px"><td colspan="'+ colSpan +'"><div align="center"><strong>' + sREsult + '</strong></div></td></tr>';
+        HTML+= '</tbody>';
+        HTML+= '</table>';
+        return HTML;
+    }
+    function evaluar(puesto, id, action){
+        var URL="controlador/fdc_bloqueo.php?&id="+id+'&action=BLOQUEA';
+        myWin= window.open(URL);
+        myWin.opener=self;
+        myWin.focus();
+    }function retomarVta(id_amex, idusuario){
+        var URL="frmTaken.php?&id="+id_amex+'&action=RETURN';
+        myWin= window.open(URL);
+        myWin.opener=self;
+        myWin.focus();
+    }
+    function setVtaBloqueo(iId, sUser, dFecha){
+        var control= '#divData_' + iId;
+        var HTML= '<img src="img/in-progress_192.gif" width="24" heigt="24"';
+        HTML += ' data-toggle="tooltip" ';
+        HTML += ' data-html="true" title="Venta tomada por agente:&nbsp;'+sUser+' => '+dFecha+'"/>';
+        $(control).prop('innerHTML', HTML);
+    }
+    function setVtaEval(iId, sUser, dFecha){
+        var control= '#divData_' + iId;
+        var HTML= 'Venta evaluada';
+        $(control).prop('innerHTML', HTML);
     }
 </script>
 

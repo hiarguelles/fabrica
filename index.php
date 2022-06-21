@@ -4,7 +4,7 @@ session_start();
 if(isset($_SESSION['id_user'])){
     header("Location: fabrica_main.php");
 }
-require_once 'header.php';
+include('header_f.php');
 if(isset($_GET['msg']) && !empty($_GET['msg']) && $_GET['msg'] == '1'){
     }
 	?>
@@ -29,8 +29,4 @@ if(isset($_GET['msg']) && !empty($_GET['msg']) && $_GET['msg'] == '1'){
 				</form>​​
 			</section>
         </div>
-<!-- 
-php require_once 'codigo-mensajes.php';?>
-php include_once 'slider.php';?>
--->
-<?php require_once 'footer.php'; ?>
+<?php require_once 'controlador/footer.php'; ?>

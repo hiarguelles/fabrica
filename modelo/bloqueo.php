@@ -17,7 +17,7 @@ class bloqueo{
             case 'BLOQUEA':	//Evaluar
                 $sql="SELECT count(1) as contador FROM tabla_bloqueo ";
                 $sql.=" where caso=:id and status_lock='T' and id_usuario not in(:user)";
-                echo $user.' , '.$id.'<br>'.$sql;
+                //echo $user.' , '.$id.'<br>'.$sql;
 
                 $stmt = $this->db->prepare($sql);
                 $stmt->bindParam(":user", $user, PDO::PARAM_STR);
@@ -37,7 +37,10 @@ class bloqueo{
                         $stmt->execute();
                         $result= $stmt->fetch();
                         if($result!=""){
-                            echo 'Usted ya tiene otra venta abierta ID='.$result[0];
+                            $url= '<a href="validaVta.php?&id='.$id.'">'.$result[0].'</a>';
+                            echo 'Usted ya tiene otra venta abierta ID='.$url;
+                            exit();
+
                             die();
                         }
                         //TOMAR VENTA;

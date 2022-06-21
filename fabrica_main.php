@@ -90,16 +90,7 @@ session_start();
                                 <li class="nav-item active"><a class="nav-link" href="#!"><?=$_SESSION['puesto']?>&nbsp;|</a></li>
 
                                 <li class="nav-item active"><a class="nav-link" href="logout.php">Cerrar sesión</a></li>
-                                <!--<li class="nav-item"><a class="nav-link" href="#!">Link</a></li>
-                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="#!">Action</a>
-                                        <a class="dropdown-item" href="#!">Another action</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#!">Something else here</a>
-                                    </div>
-                                </li>-->
+
                             </ul>
                         </div>
                     </div>
@@ -115,17 +106,13 @@ session_start();
             </div>
         </div>
 <script type="text/javascript">
-    var PUESTO='';
     $(document).ready(function(){
-        console.log('Inicializa')
-        PUESTO= '<?=$_SESSION['puesto']?>';
         bandeja();
     })
     function home(){
         $("#divMain").html("<h1 class=\"mt-4\">Flujo de generación</h1><p></p><img src=\"img/flujo_generacion.png\"/>");
     }
     function bandeja(){
-        console.log('Inicializa AJAX');
         var PARAM='{"id":"-1"}';
         var COLS=10;
         var URL="ajax.php?&action=bandeja";
@@ -156,17 +143,32 @@ session_start();
                         HTML += '<td>' + (json[key])['perfil'] + '</td>';
                         HTML += '<td>' + (json[key])['motivo'] + '</td>';
                         ROWS++;
-                        var Message = 'Tooltip'
-                        switch ((json[key])['process']) {
-                            case 'BLOCKED':// +24hrs
-                                img = '<div align="center"><a data-toggle="tooltip" title="' + Message + '"><img src="img/box-important_192.gif" width="24px"></a></div>';
-                                break;
-                            case 'EVAL':// EN EVALUACIÓN
-                                img = '<div align="center"><a data-toggle="tooltip" title="' + Message + '"><img src="img/in-progress_192.gif" width="24px"></a></div>';
+                        var Message = 'Tooltip';
+                        var PUESTO= '<?=$_SESSION['puesto']?>';
+                        var ID_USU= '<?=$_SESSION['id_user']?>';
+
+                        switch ( (json[key])['proceso'] ) {
+                            case '':
+                                img="<a href=\"javascript:evaluar('"+ PUESTO + "','" + caso  + "','EVALUAR')\">Evaluar</a>"
                                 break;
                             default:
-                                img='<a href="javascript:evaluar(\''+ PUESTO + '\', \'' + caso  + '\',\'EVALUAR\')">Evaluar</a>';
+
+                                var array_list=   (json[key])['proceso'].split('|');
+                                switch(array_list[0]){
+                                    case 'T':
+                                    case 'R':
+                                        if(array_list[3]==ID_USU) { //VETNTA TOMADA POR EL AGENTE
+                                            img="<a href=\"javascript:evaluar('"+ PUESTO + "','" + caso  + "','EVALUAR')\">Venta pendiente</a>"
+                                        }
+                                            else{
+                                            Message = 'Venta en evaluación|' + array_list[1] + '|' + array_list[2];
+                                            img = '<div align="center"><a data-toggle="tooltip" title="' + Message + '"><img src="img/in-progress_192.gif" width="24px"></a></div>';
+                                            break;
+                                        }
+                                }
+                                //img = '<div align="center"><a data-toggle="tooltip" title="' + Message + '"><img src="img/box-important_192.gif" width="24px"></a></div>';
                                 break;
+
                         }
                         HTML += '<td><div id="divData_'+ caso +'">' + img + '</div></td>';
                         HTML += '</tr>';
@@ -232,4 +234,4 @@ session_start();
     }
 </script>
 
-<?php include('footer.php') ?>
+<?php include('controlador/footer.php') ?>

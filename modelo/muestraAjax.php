@@ -10,8 +10,13 @@ class muestraAjax
 
     public function GetTableData(){
         $sql = "SELECT  row_number() over(order by socio) as fila, fecha, socio, caso, solicitud,";
-        $sql.= " status, hit, perfil, motivo,'' as process ,'' as p2 ";
-        $sql.= " FROM BASEoRIGEN ";
+        $sql.= " status, hit, perfil, motivo, nombre, ";
+        $sql.= " COALESCE((select top(1) concat(TB.status_lock, '|', U.nombre,'|', convert(varchar, fec_lock, 113), '|', U.id_usuario) ";
+        $sql.= " from tabla_bloqueo TB inner join usuarios U on (TB.id_usuario=U.id_usuario)";
+        $sql.= " WHERE TB.caso=B.CASO and status_LOCK in('T', 'R')), '')  as 'proceso' ";
+        $sql.= " FROM BASEoRIGEN B ";
+        $sql.= " WHERE B.CASO NOT IN(SELECT CASO FROM EVALUACION)";
+
         $stmt = $this->BDD->prepare($sql);
         $stmt->execute();
         $res = $stmt->fetchAll();

@@ -12,14 +12,39 @@
      <script src="js/scripts.js"></script>
     <script src="js/jquery-3.4.1.min.js"></script>
     <link rel="icon" type="image/png" href="img/icon.png" />
-    <!--
-    <script src="librerias/js/sweetalert.min.js"></script>
-    <script src="librerias/js/sweetalert2.min.js"></script>
-    <script src="librerias/modernizr.custom.63321.js" type="text/javascript"></script>
-    <script src="js/funciones_js.js"></script>
-    <script src="js/acciones_iniciales.js"></script>
--->
-    <!-- jQuery -->
+<style>
+    .table-hover thead tr:hover th, .table-hover tbody tr:hover td {
+        background-color: yellow;
+        cursor:pointer;}
+    }
+    .table-hover thead tr:hover th, .table-hover tbody tr:hover td {
+        background-color: yellow;
+        cursor:pointer;
+    }
+
+    .linkR a:link{
+        color:coral;
+        text-decoration:initial;
+    }
+    .linkA a:link{
+        color:darkgreen;
+        text-decoration:initial;
+    }
+    .ResizedTExtbox{
+        height:30px;
+        font-size:14px;
+    }
+    .table-condensed_1>thead>tr>th,
+    .table-condensed_1>tbody>tr>th,
+    .table-condensed_1>tfoot>tr>th,
+    .table-condensed_1>thead>tr>td,
+    .table-condensed_1>tbody>tr>td,
+    .table-condensed_1>tfoot>tr>td{
+        padding: 0px;
+        border-color:white;
+    }
+
+</style>
 
 </head>
 <body>

@@ -36,8 +36,8 @@ class bloqueo{
                         $stmt->bindParam(":id", $id, PDO::PARAM_STR);
                         $stmt->execute();
                         $result= $stmt->fetch();
-                        if($result!=""){
-                            $url= '<a href="validaVta.php?&id='.$id.'">'.$result[0].'</a>';
+                        if($result!=''){
+                            $url= '<a href="validaVta.php?&id='.$id.'">'.$result['caso'].'</a>';
                             echo 'Usted ya tiene otra venta abierta ID='.$url;
                             exit();
 
@@ -76,6 +76,23 @@ class bloqueo{
                         echo $row[0];
                         exit();
                         break;
+                }
+                break;
+            case 'LIBERAR':
+                $sql= "UPDATE tabla_bloqueo";
+                $sql.= " SET status_lock='L', actusuario=:user,  ";
+                $sql.= " fec_lock=CURRENT_TIMESTAMP WHERE caso=:id AND status_lock in ('T', 'R');";
+                $stmt = $this->db->prepare($sql);
+                $stmt->bindParam(":user", $_SESSION['id_user'], PDO::PARAM_STR);
+                $stmt->bindParam(":id", $id, PDO::PARAM_STR);
+
+                if($stmt->execute()){
+                    echo '<script type="text/javascript">';
+                    echo "alert('Venta liberada');";
+                    echo 'window.opener.bandeja(\'\');';
+                    echo 'window.close();';
+                    echo '</script>';
+                    die();
                 }
                 break;
             case 'RETURN':	//RETOMAR VENTA

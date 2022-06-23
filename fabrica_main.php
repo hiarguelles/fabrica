@@ -1,48 +1,11 @@
 <?php
-include('header_f.PHP');
 session_start();
-/*
- * $_SESSION['id_user']=$res[0]['id_usuario'];
-        $_SESSION['agente']=$res[0]['usuario'];
-        $_SESSION['puesto']=$res[0]['puesto'];
-        $_SESSION['menu']=$res[0]['menu'];
-
- * */
+include('header_f.PHP');
+if(!isset($_SESSION['id_user'])){
+    header('location:index.php');
+    die();
+}
 ?>
-<style>
-    .table-hover thead tr:hover th, .table-hover tbody tr:hover td {
-        background-color: yellow;
-        cursor:pointer;}
-    }
-    .table-hover thead tr:hover th, .table-hover tbody tr:hover td {
-        background-color: yellow;
-        cursor:pointer;
-    }
-
-    .linkR a:link{
-        color:coral;
-        text-decoration:initial;
-    }
-    .linkA a:link{
-        color:darkgreen;
-        text-decoration:initial;
-    }
-    .ResizedTExtbox{
-        height:30px;
-        font-size:14px;
-    }
-    .table-condensed_1>thead>tr>th,
-    .table-condensed_1>tbody>tr>th,
-    .table-condensed_1>tfoot>tr>th,
-    .table-condensed_1>thead>tr>td,
-    .table-condensed_1>tbody>tr>td,
-    .table-condensed_1>tfoot>tr>td{
-        padding: 0px;
-        border-color:white;
-    }
-
-</style>
-
 
         <div class="d-flex" id="wrapper">
             <!-- Sidebar-->
@@ -54,15 +17,13 @@ session_start();
                         case "agente":
                             ?>
                             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="javascript:home()">Inicio</a>
-                            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="javascript:bandeja()">Bandeja</a>
+                            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="javascript:bandeja('')">Bandeja</a>
                             <?php
                             break;
                         case "administrador":
                             ?>
                             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="javascript:home()">Inicio</a>
-                            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Overview</a>
-                            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Events</a>
-                            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Profile</a>
+                            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="javascript:bandeja('')">Bandeja</a>
                             <?php
                             break;
                         default:
@@ -98,6 +59,22 @@ session_start();
                 <!-- Page content-->
                 <p></p>
                 <p></p>
+                <div class="container-fluid ui-tabs-panel" id="divSearch" name="divSearch">
+                    <table class="table table-responsive" style="width:50%">
+                        <tr>
+                            <td>Búsqueda:</td>
+                            <td>
+                                <input type="text" class="form-control" id="txtSearch" name="txtSearch" placeholder="Cliente, caso, solicitud">
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-primary" onclick="javascript:search()">
+                                    Buscar
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                    <p></p>
+                </div>
                 <div class="container-fluid ui-tabs-panel" id="divMain" name="divMain">
                     <h1 class="mt-4">Flujo de generación</h1>
                     <p></p>
@@ -107,15 +84,23 @@ session_start();
         </div>
 <script type="text/javascript">
     $(document).ready(function(){
-        bandeja();
+        bandeja('');
     })
     function home(){
+        $("#divSearch").attr('display','none')
         $("#divMain").html("<h1 class=\"mt-4\">Flujo de generación</h1><p></p><img src=\"img/flujo_generacion.png\"/>");
     }
-    function bandeja(){
+    function search(){
+        let search_text= $("#txtSearch").val();
+        if(search_text.trim()!=''){
+            bandeja(search_text)
+        }
+    }
+    function bandeja(search){
         var PARAM='{"id":"-1"}';
         var COLS=10;
-        var URL="ajax.php?&action=bandeja";
+        var URL="ajax.php?&action=bandeja&search=" + search;
+        console.log(URL);
         var ROWS=0;
         var HTML=''
         $("#divMain").html("loading");
@@ -135,7 +120,7 @@ session_start();
                         HTML += '<tr style="font-size:10px">';
                         HTML += '<td>' + (json[key])['fila'] + '</td>';
                         HTML += '<td>' + (json[key])['fecha'] + '</td>';
-                        HTML += '<td>' + (json[key])['socio'] + '</td>';
+                        HTML += '<td>' + (json[key])['nombre'] + '</td>';
                         HTML += '<td>' + caso  + '</td>';
                         HTML += '<td>' + (json[key])['solicitud'] + '</td>';
                         HTML += '<td>' + (json[key])['status'] + '</td>';
@@ -146,13 +131,11 @@ session_start();
                         var Message = 'Tooltip';
                         var PUESTO= '<?=$_SESSION['puesto']?>';
                         var ID_USU= '<?=$_SESSION['id_user']?>';
-
                         switch ( (json[key])['proceso'] ) {
                             case '':
                                 img="<a href=\"javascript:evaluar('"+ PUESTO + "','" + caso  + "','EVALUAR')\">Evaluar</a>"
                                 break;
                             default:
-
                                 var array_list=   (json[key])['proceso'].split('|');
                                 switch(array_list[0]){
                                     case 'T':
@@ -162,11 +145,16 @@ session_start();
                                         }
                                             else{
                                             Message = 'Venta en evaluación|' + array_list[1] + '|' + array_list[2];
-                                            img = '<div align="center"><a data-toggle="tooltip" title="' + Message + '"><img src="img/in-progress_192.gif" width="24px"></a></div>';
+                                            if(PUESTO=='Administrador'){
+                                                console.log('ADMI');
+                                                img = "<a href=\"javascript:liberar('"+ PUESTO + "','" + caso  + "','LIBERAR')\">Liberar Venta</a>";
+                                            }else {
+                                                img = '<div align="center"><a data-toggle="tooltip" title="' + Message + '"><img src="img/in-progress_192.gif" width="24px"></a></div>';
+                                            }
                                             break;
                                         }
+
                                 }
-                                //img = '<div align="center"><a data-toggle="tooltip" title="' + Message + '"><img src="img/box-important_192.gif" width="24px"></a></div>';
                                 break;
 
                         }
@@ -174,10 +162,7 @@ session_start();
                         HTML += '</tr>';
                     }
                     var R= TAbleHEader() + HTML + TAbleFooter(COLS, (ROWS +' resultados'));
-                    //$("#divResult").html(R);
                     $("#divMain").html(R);
-                    console.log(HTML);
-                //}
             },
             error: function(e){
                 console.log('Error='+ e);
@@ -190,7 +175,7 @@ session_start();
         HTML+= '<tr style="background-color:#0a53be;color: #FFFFFF;font-size: 11px">';
         HTML+= '<th><div align="center">NUM</div></th>';
         HTML+= '<th><div align="center">FECHA</div></th>';
-        HTML+= '<th><div align="center">SOCIO</div></th>';
+        HTML+= '<th><div align="center">CLIENTE</div></th>';
         HTML+= '<th><div align="center">CASO</div></th>';
         HTML+= '<th><div align="center">SOLICITUD</div></th>';
         HTML+= '<th><div align="center">STATUS</div></th>';
@@ -208,6 +193,12 @@ session_start();
         HTML+= '</tbody>';
         HTML+= '</table>';
         return HTML;
+    }
+    function liberar(puesto, id, action){
+        var URL="controlador/fdc_bloqueo.php?&id="+id+'&action=LIBERAR';
+        myWin= window.open(URL);
+        myWin.opener=self;
+        myWin.focus();
     }
     function evaluar(puesto, id, action){
         var URL="controlador/fdc_bloqueo.php?&id="+id+'&action=BLOQUEA';

@@ -36,10 +36,15 @@ else{
     $sql.= " WHERE caso=? AND id_usuario=? AND status_lock='T' ";
     $arrayTMP= array("query" => $sql, "params" => array($id_user, $id, $id_user));
     array_push(	$array, $arrayTMP);
+    //MARCAR VENTA EVALUADA
+    $sql= "UPDATE  BaseOrigen  SET validado=1 WHERE caso=?";
+    $arrayTMP= array("query" => $sql, "params" => array($id));
+    array_push(	$array, $arrayTMP);
 
+    //INSERT ARRAY SQL'S
     if($data->insertDataPDO($array, false)){
         echo '<script type="text/javascript">';
-        echo "alert('Evaluacion grabada correctamente');";
+        echo "alert('Evaluación grabada correctamente');";
         echo 'window.opener.setVtaEval('.$id.', \''.$id_user.'\',\''.strftime('%r').'\');';
         echo 'window.close();';
         echo '</script>';

@@ -1,0 +1,11 @@
+/* Diccionario tabla_bloqueo.status_lock */ 
+
+
+T=	Tomado por primera vez por agente
+L=	Venta liberada por Administrador
+R=	Venta retomada por el agente propietario
+F=	Evaluación finalizada por agente
+
+/* PARA ACTUALIAR CASOS EVALUADOS nueva modalidad campo EVALUADO en base origen */
+
+update baseorigen set validado=1 where caso IN (select caso from evaluacion)

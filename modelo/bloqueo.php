@@ -37,7 +37,7 @@ class bloqueo{
                         $stmt->execute();
                         $result= $stmt->fetch();
                         if($result!=''){
-                            $url= '<a href="validaVta.php?&id='.$id.'">'.$result['caso'].'</a>';
+                            $url= '<a href="validaVta.php?&id='.$result['caso'].'">'.$result['caso'].'</a>';
                             echo 'Usted ya tiene otra venta abierta ID='.$url;
                             exit();
 
@@ -45,8 +45,8 @@ class bloqueo{
                         }
                         //TOMAR VENTA;
                         $sql= "INSERT INTO  tabla_bloqueo";
-                        $sql.= " (caso, id_usuario, fec_lock, status_lock, actusuario)VALUES(";
-                        $sql.= " :id, :user, CURRENT_TIMESTAMP, 'T', :user2 );";
+                        $sql.= " (caso, id_usuario, fec_lock, status_lock, actusuario, ins_fecha)VALUES(";
+                        $sql.= " :id, :user, CURRENT_TIMESTAMP, 'T', :user2, CURRENT_TIMESTAMP );";
                         $stmt = $this->db->prepare($sql);
                         $stmt->bindParam(":user", $user, PDO::PARAM_STR);
                         $stmt->bindParam(":user2", $user, PDO::PARAM_STR);

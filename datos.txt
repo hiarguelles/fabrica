@@ -24,3 +24,25 @@ bradescard_fabrica/controlador/admin.php
 
 
 
+
+
+
+
+    Razón Social KU-BO FINANCIERO, S.A. DE C.V., S.F.P.
+    Convenio CIE 1514474	
+    Referencia 1008295253
+    Pago $1,420.00
+    No olvides incluir la “Referencia” para identificar tu pago.
+
+
+
+
+
+
+
+
+
+
+
+
+

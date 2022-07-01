@@ -15,7 +15,8 @@ class muestraAjax
         $sql.= " from tabla_bloqueo TB inner join usuarios U on (TB.id_usuario=U.id_usuario)";
         $sql.= " WHERE TB.caso=B.CASO and status_LOCK in('T', 'R')), '')  as 'proceso' ";
         $sql.= " FROM BASEoRIGEN B ";
-        $sql.= " WHERE B.CASO NOT IN(SELECT CASO FROM EVALUACION)";
+        //$sql.= " WHERE B.CASO NOT IN(SELECT CASO FROM EVALUACION)";
+        $sql.= " WHERE (B.VALIDADO is null or B.validado<>1)"; //nuevo campo ventas no validadas
         //SEARCH
         if($search!=""){
             $sql.= " AND concat(nombre, CASO, SOLICITUD) LIKE '%".$search."%'";
